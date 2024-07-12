@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Goal Tracker</title>
+    <style>
+      @font-face {
+        font-family: "Poppins", sans-serif;
+        src: url("aa.ttf") format("truetype");
+      }
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(to right, #0a0a0a, rgba(167, 119, 227, 1));
+        overflow-x: hidden;
+        color: #fff;
+      }
+      .dashboard {
+        margin-left: 100px;
+        padding: 20px;
+        transition: margin-left 0.3s;
+      }
+      .sidebar:hover + .dashboard {
+        margin-left: 270px;
+      }
+      .top-section {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      .top-card {
+        flex: 1;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        background: linear-gradient(to bottom, #42257d, #7c70a1);
+        color: #fff;
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, background 0.3s;
+        min-width: 250px;
+      }
+      .top-card:hover {
+        transform: translateY(-5px);
+        background: linear-gradient(to top, #42257d, #7c70a1);
+      }
+      .bottom-section {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+      }
+      .left-section {
+        margin-right: 0;
+      }
+      .big-goal {
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        background: rgb(255, 255, 255, 0.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        font-family: "Poppins", sans-serif;
+      }
+      .big-goal:hover {
+        transform: translateY(-5px);
+        font-family: "Poppins", sans-serif;
+      }
+      .big-goal-title {
+        width: calc(100% - 40px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ffffff;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* Add this rule to make text inside #goal-list white */
+      #goal-list {
+        color: #ffffff;
+      }
+
+      .add-goal-btn,
+      .add-task-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        background: #42257d;
+        color: #ffffff;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-family: "Poppins", sans-serif;
+        margin-bottom: 8px;
+      }
+      .add-goal-btn:hover,
+      .add-task-btn:hover {
+        background: rgba(167, 119, 227, 0.8);
+      }
+      .goal-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      .goal-table th,
+      .goal-table td {
+        border: 1px solid #442667;
+        padding: 10px;
+        text-align: left;
+      }
+      .goal-table th {
+        background: #42257d;
+        color: #ffffff;
+      }
+      .status-dropdown {
+        width: 100%;
+        padding: 5px;
+        border-radius: 4px;
+      }
+      .right-section {
+        padding: 20px;
+        border-radius: 8px;
+        background: #42257d;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.39);
+        transition: transform 0.3s;
+        margin-top: 20px;
+      }
+      .right-section:hover {
+        transform: translateY(-5px);
+      }
+      .daily-progress {
+        margin-bottom: 20px;
+      }
+      .progress-bar {
+        height: 20px;
+        border-radius: 10px;
+        background: rgba(167, 119, 227, 0.5);
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 20px;
+      }
+      .progress {
+        height: 100%;
+        background: rgb(137, 227, 119);
+        transition: width 0.3s;
+      }
+      .daily-tasks {
+        padding: 10px;
+        border-radius: 8px;
+        background: rgba(225, 225, 225, 0.477);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+      .daily-tasks:hover {
+        transform: translateY(-5px);
+      }
+      .daily-tasks h3 {
+        margin-top: 0;
+      }
+      .daily-tasks ul {
+        list-style: none;
+        padding: 0;
+      }
+      .daily-tasks li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .daily-tasks li input[type="checkbox"] {
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .daily-tasks li input[type="checkbox"]:checked {
+        background: rgb(123, 227, 119);
+        border: 2px solid #fff;
+        transition: all 0.3s;
+      }
+      .daily-tasks li input[type="checkbox"]:checked::before {
+        content: "✔";
+        display: block;
+        color: #fff;
+        font-size: 16px;
+        text-align: center;
+        line-height: 16px;
+      }
+      .delete-btn {
+        margin-left: auto;
+        background: #7c70a1;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .delete-btn:hover {
+        background: #7c70a1;
+      }
+      .task-enter {
+        animation: taskEnter 0.5s ease-out;
+      }
+      @keyframes taskEnter {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Media Queries for Mobile Devices */
+      @media (max-width: 768px) {
+        .dashboard {
+          margin-left: 0;
+          padding: 10px;
+        }
+        .top-section {
+          flex-direction: column;
+          align-items: center;
+        }
+        .top-card {
+          width: 90%;
+          margin: 10px 0;
+        }
+        .bottom-section {
+          flex-direction: column;
+        }
+        .left-section,
+        .right-section {
+          width: 100%;
+          margin: 0;
+          padding: 10px 0;
+        }
+        .goal-table,
+        .daily-tasks ul {
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .big-goal-title {
+          width: calc(100% - 20px);
+        }
+        .goal-table th,
+        .goal-table td {
+          padding: 5px;
+        }
+        .add-goal-btn,
+        .add-task-btn {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 5px;
+        }
+        .daily-tasks ul {
+          padding: 0 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('layout/sbar.ejs') %>
+    <div class="dashboard">
+      <div class="top-section">
+        <div class="top-card">
+          <p>Goals Achieved</p>
+          <p id="goals-achieved">0</p>
+        </div>
+        <div class="top-card">
+          <p>Goals In Progress</p>
+          <p id="goals-in-progress">0</p>
+        </div>
+        <div class="top-card">
+          <p>Total Goals</p>
+          <p id="total-goals">0</p>
+        </div>
+      </div>
+      <div class="bottom-section">
+        <div class="left-section">
+          <div class="big-goal">
+            <input
+              type="text"
+              id="big-goal-title"
+              class="big-goal-title"
+              placeholder="Enter Goal"
+            />
+            <button class="add-goal-btn" onclick="addGoal()">Add Goal</button>
+          </div>
+          <table class="goal-table">
+            <thead>
+              <tr>
+                <th>Goal</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="goal-list">
+              <!-- Goal items will be added here dynamically -->
+            </tbody>
+          </table>
+        </div>
+        <div class="right-section">
+          <div class="daily-progress">
+            <h3>Daily Progress</h3>
+            <div class="progress-bar">
+              <div class="progress" id="daily-progress" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="daily-tasks">
+            <h3>Daily Tasks</h3>
+            <input
+              type="text"
+              id="task-title"
+              class="big-goal-title"
+              placeholder="Enter Daily Task"
+            />
+            <button class="add-task-btn" onclick="addTask()">Add Task</button>
+            <ul id="task-list">
+              <!-- Task items will be added here dynamically -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function getGoalsFromStorage() {
+        const goals = JSON.parse(localStorage.getItem("goals")) || [];
+        return goals;
+      }
+
+      // Function to save goals to local storage
+      function saveGoalsToStorage(goals) {
+        localStorage.setItem("goals", JSON.stringify(goals));
+      }
+
+      // Function to update tally based on stored goals
+      function updateTally() {
+        const goals = getGoalsFromStorage();
+        const totalGoals = goals.length;
+        const inProgressGoals = goals.filter(
+          (goal) => goal.status === "in-progress"
+        ).length;
+        const achievedGoals = goals.filter(
+          (goal) => goal.status === "completed"
+        ).length;
+        document.getElementById("total-goals").innerText = totalGoals;
+        document.getElementById("goals-in-progress").innerText =
+          inProgressGoals;
+        document.getElementById("goals-achieved").innerText = achievedGoals;
+      }
+
+      // Function to add a goal
+      function addGoal() {
+        const goalTitle = document.getElementById("big-goal-title").value;
+        if (goalTitle) {
+          const goals = getGoalsFromStorage();
+          const newGoal = { title: goalTitle, status: "not-started" };
+          goals.push(newGoal);
+          saveGoalsToStorage(goals);
+          renderGoals();
+          document.getElementById("big-goal-title").value = "";
+          updateTally();
+        }
+      }
+
+      // Function to delete a goal
+      function deleteGoal(index) {
+        const goals = getGoalsFromStorage();
+        goals.splice(index, 1);
+        saveGoalsToStorage(goals);
+        renderGoals();
+        updateTally();
+      }
+
+      // Function to render goals from local storage
+      function renderGoals() {
+        const goals = getGoalsFromStorage();
+        const goalList = document.getElementById("goal-list");
+        goalList.innerHTML = ""; // Clear existing list
+        goals.forEach((goal, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+          <td>${goal.title}</td>
+          <td>
+            <select class="status-dropdown" onchange="updateGoalStatus(${index}, this.value)">
+              <option value="not-started" ${
+                goal.status === "not-started" ? "selected" : ""
+              }>Not Started</option>
+              <option value="in-progress" ${
+                goal.status === "in-progress" ? "selected" : ""
+              }>In Progress</option>
+              <option value="completed" ${
+                goal.status === "completed" ? "selected" : ""
+              }>Completed</option>
+            </select>
+          </td>
+          <td>
+            <button class="delete-btn" onclick="deleteGoal(${index})">Delete</button>
+          </td>
+        `;
+          row.classList.add("task-enter");
+          goalList.appendChild(row);
+        });
+      }
+
+      // Function to update goal status
+      function updateGoalStatus(index, status) {
+        const goals = getGoalsFromStorage();
+        goals[index].status = status;
+        saveGoalsToStorage(goals);
+        updateTally();
+      }
+
+      // Initial render on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        renderGoals();
+        updateTally();
+      });
+
+      // Function to retrieve daily tasks from local storage
+      function getTasksFromStorage() {
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        return tasks;
+      }
+
+      // Function to save daily tasks to local storage
+      function saveTasksToStorage(tasks) {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      }
+
+      // Function to update daily progress based on stored tasks
+      function updateProgress() {
+        const tasks = getTasksFromStorage();
+        const totalTasks = tasks.length;
+        const completedTasks = tasks.filter((task) => task.completed).length;
+        const progressPercent = totalTasks
+          ? (completedTasks / totalTasks) * 100
+          : 0;
+        document.getElementById("daily-progress").style.width =
+          progressPercent + "%";
+      }
+
+      // Function to add a daily task
+      function addTask() {
+        const taskTitle = document.getElementById("task-title").value;
+        if (taskTitle) {
+          const tasks = getTasksFromStorage();
+          const newTask = { title: taskTitle, completed: false };
+          tasks.push(newTask);
+          saveTasksToStorage(tasks);
+          renderTasks();
+          document.getElementById("task-title").value = "";
+          updateProgress();
+        }
+      }
+
+      // Function to delete a daily task
+      function deleteTask(index) {
+        const tasks = getTasksFromStorage();
+        tasks.splice(index, 1);
+        saveTasksToStorage(tasks);
+        renderTasks();
+        updateProgress();
+      }
+
+      // Function to render daily tasks from local storage
+      function renderTasks() {
+        const tasks = getTasksFromStorage();
+        const taskList = document.getElementById("task-list");
+        taskList.innerHTML = ""; // Clear existing list
+        tasks.forEach((task, index) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+          <input type="checkbox" ${
+            task.completed ? "checked" : ""
+          } onchange="toggleTaskStatus(${index}, this.checked)">
+          ${task.title}
+          <button class="delete-btn" onclick="deleteTask(${index})">Delete</button>
+        `;
+          li.classList.add("task-enter");
+          taskList.appendChild(li);
+        });
+      }
+
+      // Function to toggle task completion status
+      function toggleTaskStatus(index, completed) {
+        const tasks = getTasksFromStorage();
+        tasks[index].completed = completed;
+        saveTasksToStorage(tasks);
+        updateProgress();
+      }
+
+      // Initial render on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        renderTasks();
+        updateProgress();
+      });
+    </script>
+  </body>
+</html>

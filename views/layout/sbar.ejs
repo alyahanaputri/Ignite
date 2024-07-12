@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: #f4f4f400;
+        display: flex;
+      }
+      .sidebar {
+        height: 100vh;
+        width: 80px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: linear-gradient(to left, #6631a8, #2a0552);
+        padding: 20px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: width 0.3s;
+        z-index: 1000; /* Ensure sidebar is above other content */
+      }
+
+      .sidebar:hover {
+        width: 250px;
+      }
+      .sidebar-logo-container {
+        position: relative;
+        margin-bottom: 20px;
+        width: 50px;
+        height: 50px;
+      }
+      .sidebar-logo {
+        width: 100%;
+        height: 100%;
+      }
+      .sidebar a {
+        width: 100%;
+        padding: 10px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #ccc;
+        display: flex;
+        align-items: center;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .sidebar a img {
+        margin-right: 15px;
+        width: 35px;
+        height: 35px;
+      }
+      .sidebar a span {
+        opacity: 0;
+        white-space: nowrap;
+        transition: opacity 0.3s;
+      }
+      .sidebar:hover a span {
+        opacity: 1;
+      }
+      .sidebar a:hover {
+        background-color: #0000002b;
+        color: #fff;
+        border-radius: 8px;
+      }
+      .logout {
+        margin-top: auto;
+        margin-bottom: 7px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="sidebar-logo-container">
+        <img src="/logoKecil.webp" alt="Ignitee Logo" class="sidebar-logo" />
+      </div>
+      <a href="/dashboard">
+        <img src="/home.webp" alt="Dashboard" />
+        <span><b>Home</b></span>
+      </a>
+      <a href="/chatbot">
+        <img src="/conversation.webp" alt="Chat with Blaze" />
+        <span><b>Chat with Blaze</b></span>
+      </a>
+      <a href="/goal">
+        <img src="/growth.webp" alt="Goals" />
+        <span><b>Goals</b></span>
+      </a>
+      <a href="/" class="logout">
+        <img src="/logout.webp" alt="Logout" />
+        <span><b>Logout</b></span>
+      </a>
+    </div>
+  </body>
+</html>

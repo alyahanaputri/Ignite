@@ -1,0 +1,92 @@
+<nav>
+  <a href="#" class="brand"><img src="logoKecil.webp" alt="Logo" /></a>
+  <div class="navigation">
+    <div class="navigation-items">
+      <a href="/">Home</a>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    </div>
+  </div>
+  <div class="profile-support"></div>
+</nav>
+
+<style>
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1c1c1c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    color: #bc7cff;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .brand img {
+    height: 50px;
+    margin-right: 10px;
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    padding-left: 20px;
+  }
+
+  .navigation-items {
+    list-style: none;
+    display: flex;
+  }
+
+  .navigation-items a {
+    color: #bc7cff;
+    font-size: 1em;
+    font-weight: 500;
+    margin: 0 15px;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .navigation-items a:before {
+    content: "";
+    position: absolute;
+    background: #bc7cff;
+    width: 0;
+    height: 3px;
+    bottom: -5px;
+    left: 0;
+    transition: width 0.3s ease;
+  }
+
+  .navigation-items a:hover:before {
+    width: 100%;
+  }
+
+  .navigation-items a:hover {
+    color: #857cff;
+  }
+
+  .profile-support {
+    display: flex;
+    align-items: center;
+  }
+</style>

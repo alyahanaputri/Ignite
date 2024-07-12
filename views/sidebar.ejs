@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Sidebar</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        height: 100%;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(to bottom, #0a0a0a, rgb(125, 84, 175));
+        overflow-x: hidden; /* Prevents horizontal scroll */
+      }
+
+      .gradient-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        background: linear-gradient(to bottom, #0a0a0a, rgba(167, 119, 227, 1));
+
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+
+      .content {
+        padding: 20px;
+        color: #f2f2f2;
+        min-height: 110vh;
+      }
+
+      .text-container {
+        margin: 40px auto 0 auto;
+        max-width: 800px;
+        text-align: center;
+        animation: fadeIn 2s ease-in-out;
+      }
+
+      .text-container h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        letter-spacing: -0.5px;
+      }
+
+      .text-container p {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+      }
+
+      .awkward {
+        color: #ff1d1d;
+        font-weight: 700;
+        animation: pulse 1.5s infinite;
+      }
+
+      .quote-container {
+        margin-top: 50px;
+      }
+
+      .quote {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        font-style: italic;
+        animation: fadeIn 3s ease-in-out;
+      }
+
+      .quote::before {
+        content: "“";
+        font-size: 2.5rem;
+        vertical-align: top;
+        color: #f2f2f2;
+      }
+
+      .quote::after {
+        content: "”";
+        font-size: 2.5rem;
+        vertical-align: bottom;
+        color: #f2f2f2;
+      }
+
+      .quote-author {
+        text-align: right;
+        font-size: 1.2rem;
+        color: rgba(242, 242, 242, 0.8);
+      }
+
+      .additional-message {
+        margin-top: 50px;
+        font-size: 1.5rem;
+        line-height: 1.5;
+        text-align: center;
+        animation: fadeInUp 2s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .text-container h1 {
+          font-size: 2.5rem;
+        }
+        .text-container p,
+        .additional-message {
+          font-size: 1.2rem;
+        }
+        .quote {
+          font-size: 1.5rem;
+        }
+        .quote::before,
+        .quote::after {
+          font-size: 2rem;
+        }
+      }
+    </style>
+    <script>
+      window.addEventListener("scroll", function () {
+        const gradient = document.querySelector(".gradient-bg");
+        const scrollTop = window.scrollY;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = scrollTop / docHeight;
+
+        gradient.style.opacity = scrollPercent;
+      });
+    </script>
+  </head>
+  <body>
+    <%- include('layout/sbar.ejs') %>
+    <div class="gradient-bg"></div>
+    <div class="content">
+      <div class="text-container">
+        <h1>Hi, user</h1>
+        <p>
+          Always Remember That You Are
+          <br />
+          <span class="awkward">Worthy.</span> <br />
+        </p>
+        <div class="quote-container">
+          <p class="quote">. <%= quote %></p>
+        </div>
+        <div class="additional-message">
+          <p>
+            We will help you through a chatbot that will accompany you whenever
+            you need someone to talk to tirelessly, and through a goal tracker
+            that might help you focus on your strengths and strengthen them to
+            make you realize how cool you are.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

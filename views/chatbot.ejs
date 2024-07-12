@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(to bottom, #0a0a0a, rgba(167, 119, 227, 1));
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+      }
+
+      .chat-container {
+        margin-left: 100px;
+        padding: 20px;
+        width: calc(100% - 100px);
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        background-color: #2a0552;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .chat-header {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #ffffff;
+      }
+
+      .chat-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .chat-header p {
+        font-size: 1.2rem;
+        font-weight: 400;
+        color: #ffffff;
+      }
+
+      .chat-history {
+        flex-grow: 1;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        padding-right: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 10px;
+        border: 1px solid #8a1dd8;
+      }
+
+      .message {
+        display: flex;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        width: fit-content;
+        max-width: 70%;
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+
+      .message.user {
+        background-color: rgba(167, 119, 227, 0.5);
+        color: #ffffff;
+        align-self: flex-end;
+      }
+
+      .message.bot {
+        background-color: #ffffff;
+        color: #2a0552;
+        align-self: flex-start;
+      }
+
+      .chat-input {
+        display: flex;
+      }
+
+      .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #8a1dd8;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #2a0552;
+        font-size: 1rem;
+      }
+
+      .chat-input input:focus {
+        outline: none;
+        border-color: rgba(167, 119, 227, 1);
+        box-shadow: 0 0 5px rgba(167, 119, 227, 0.8);
+      }
+
+      .chat-input button {
+        padding: 10px 20px;
+        border: none;
+        background-color: rgba(167, 119, 227, 1);
+        color: #2a0552;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .chat-input button:hover {
+        background-color: rgba(167, 119, 227, 0.8);
+        box-shadow: 0 0 10px rgba(167, 119, 227, 0.8);
+      }
+
+      .chat-history::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .chat-history::-webkit-scrollbar-track {
+        background: #1c1c1c;
+      }
+
+      .chat-history::-webkit-scrollbar-thumb {
+        background: rgba(167, 119, 227, 1);
+        border-radius: 10px;
+      }
+
+      .chat-history::-webkit-scrollbar-thumb:hover {
+        background: rgba(167, 119, 227, 0.8);
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('layout/sbar') %>
+    <div class="chat-container">
+      <div class="chat-header">
+        <h1>Blaze</h1>
+        <p>Your Mental Health Companion</p>
+      </div>
+      <div class="chat-history">
+        <% if (messages) { %> <% messages.forEach(function(message) { %>
+        <div class="message <%= message.type %>">
+          <p><%= message.text %></p>
+        </div>
+        <% }) %> <% } %>
+      </div>
+      <div class="chat-input">
+        <form id="chat-form" action="/chatbot" method="post">
+          <input
+            type="text"
+            name="message"
+            id="message"
+            placeholder="Type your message here..."
+            autocomplete="off"
+          />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
